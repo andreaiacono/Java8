@@ -15,13 +15,15 @@ public class Book {
     private int pages;
     private Genre genre;
     private String ISBN;
+    private int year;
 
-    public Book(List<Author> authors, String title, int pages, Genre genre, String isbn) {
+    public Book(List<Author> authors, String title, int pages, Genre genre, String isbn, int year) {
         this.authors = authors;
         this.title = title;
         this.pages = pages;
         this.genre = genre;
         this.ISBN = isbn;
+        this.year = year;
     }
 
     public List<Author> getAuthors() {
@@ -36,12 +38,16 @@ public class Book {
         return pages;
     }
 
-    public Genre getGenres() {
+    public Genre getGenre() {
         return genre;
     }
 
     public String getISBN() {
         return ISBN;
+    }
+
+    public int getYear() {
+        return year;
     }
 
     @Override

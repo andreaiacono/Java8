@@ -4,7 +4,6 @@ import core.Book;
 import core.Genre;
 import core.Setup;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  * Date: 18/06/14
  * Time: 14.47
  */
-public class Sample {
+public class FilterSample {
 
     public static void main(String[] args) {
 
@@ -24,7 +23,7 @@ public class Sample {
         System.out.println("Long books: " + Arrays.toString(longBooks.toArray()));
 
         // if we want to modify the filter, we need to
-        // create another one from scratch
+        // create another one almost identical to the first
         List<Book> longNonFictionBooks = getNonFictionLongBooks(Setup.books);
         System.out.println("Long non fiction books: " + Arrays.toString(longNonFictionBooks.toArray()));
 
@@ -33,7 +32,7 @@ public class Sample {
         longBooks = lambdaFilter(Setup.books, lambdaLongBooks);
         System.out.println("Lambda long books: " + Arrays.toString(longBooks.toArray()));
 
-        BookFilter lambdaNonFictionLongBooks = book -> book.getPages() > 400 && Genre.NON_FICTION.equals(book.getGenres());
+        BookFilter lambdaNonFictionLongBooks = book -> book.getPages() > 400 && Genre.NON_FICTION.equals(book.getGenre());
         longNonFictionBooks = lambdaFilter(Setup.books, lambdaNonFictionLongBooks);
         System.out.println("Lambda long non fiction books: " + Arrays.toString(longNonFictionBooks.toArray()));
     }
@@ -42,7 +41,7 @@ public class Sample {
     public static List<Book> lambdaFilter(List<Book> books, BookFilter bookFilter) {
         List<Book> accumulator = new ArrayList<>();
         for (Book book : books) {
-            if (bookFilter.apply(book)) {
+            if (bookFilter.test(book)) {
                 accumulator.add(book);
             }
         }
@@ -54,7 +53,7 @@ public class Sample {
     public static List<Book> getLongBooks(List<Book> books) {
         List<Book> accumulator = new ArrayList<>();
         for (Book book : books) {
-            if (book.getPages() > 200) {
+            if (book.getPages() > 400) {
                 accumulator.add(book);
             }
         }
@@ -65,7 +64,7 @@ public class Sample {
     public static List<Book> getNonFictionLongBooks(List<Book> books) {
         List<Book> accumulator = new ArrayList<>();
         for (Book book : books) {
-            if (book.getPages() > 200 && book.getGenres().equals(Genre.NON_FICTION)) {
+            if (book.getPages() > 400 && book.getGenre().equals(Genre.NON_FICTION)) {
                 accumulator.add(book);
             }
         }

@@ -9,12 +9,12 @@ package core;
 public class Author {
     private String name;
     private String lastName;
-    private String city;
+    private String country;
 
     public Author(String name, String lastName, String city) {
         this.name = name;
         this.lastName = lastName;
-        this.city = city;
+        this.country = city;
     }
 
     public String getName() {
@@ -25,7 +25,12 @@ public class Author {
         return lastName;
     }
 
-    public String getCity() {
-        return city;
+    public String getCountry() {
+        return country;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + lastName;
     }
 }
