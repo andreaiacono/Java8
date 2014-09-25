@@ -3,6 +3,7 @@ package patterns;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,25 +11,37 @@ import java.util.function.Function;
  * Date: 25/09/14
  * Time: 21.27
  */
-public class FunctionalCache {
+public class FunctionalMapCache {
 
     private static enum QueryType {
-        BOOKS_COUNT, PUBLISHERS_COUNT, COUNTRIES_COUNT;
+        BOOKS_COUNT(() -> countBooks()),
+        PUBLISHERS_COUNT(() -> countPublishers()),
+        COUNTRIES_COUNT(() -> countCountries());
+
+        private Supplier<Integer> counter;
+        QueryType(Supplier<Integer> counter) {
+            this.counter = counter;
+        }
+
+        public Supplier<Integer> getCounter() {
+            return counter;
+        }
     }
+
     private static Map<QueryType, Integer> cache = new HashMap<>();
 
     public static void main(String[] args) {
 
-        Integer booksCount = getValue(QueryType.BOOKS_COUNT, f -> countBooks());
+        Integer booksCount = getValue(QueryType.BOOKS_COUNT);
         System.out.println("Books #: " + booksCount);
-        booksCount = getValue(QueryType.BOOKS_COUNT, f -> countBooks());
+        booksCount = getValue(QueryType.BOOKS_COUNT);
         System.out.println("Books #: " + booksCount);
     }
 
-    public static Integer getValue(QueryType queryType, Function<QueryType, Integer> counter) {
+    public static Integer getValue(QueryType queryType) {
         Integer count = cache.get(queryType);
         if (count == null) {
-            count = counter.apply(queryType);
+            count = queryType.getCounter().get();
             cache.put(queryType, count);
             System.out.println("Value got from DB: " + count);
         }
