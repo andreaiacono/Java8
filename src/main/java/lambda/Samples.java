@@ -14,7 +14,7 @@ import java.util.List;
  * Date: 18/06/14
  * Time: 14.47
  */
-public class FilterSample {
+public class Samples {
 
     public static void main(String[] args) {
 
